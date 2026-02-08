@@ -123,17 +123,21 @@ protected:
 
 TEST_F(US_RegexTest, ValidateAllRegexPatterns) {
     QStringList targetDirs = {"utils", "gui", "somo", "us_somo", "programs"};
+    QStringList dirs;
     QDir root = QDir::current();
+    dirs << root.absolutePath();
     root.cdUp();
+    dirs << root.absolutePath();
     root.cdUp();
-    const QString rootPath = root.absolutePath();
+    dirs << root.absolutePath();
 
     QList<PatternEntry> allPatterns;
-
-    for (const QString& dir : targetDirs) {
-        QDirIterator it(rootPath + "/" + dir, {"*.cpp", "*.h", "*.hpp", "*.cc"}, QDir::Files, QDirIterator::Subdirectories);
-        while (it.hasNext()) {
-            allPatterns.append(extractPatterns(it.next()));
+    for (const QString& rootPath : dirs) {
+        for (const QString& dir : targetDirs) {
+            QDirIterator it(rootPath + "/" + dir, {"*.cpp", "*.h", "*.hpp", "*.cc"}, QDir::Files, QDirIterator::Subdirectories);
+            while (it.hasNext()) {
+                allPatterns.append(extractPatterns(it.next()));
+            }
         }
     }
     if (allPatterns.isEmpty()) {
