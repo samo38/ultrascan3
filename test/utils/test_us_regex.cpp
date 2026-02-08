@@ -78,10 +78,10 @@ protected:
         }
         file.close();
 
-        QRegularExpression rx1(R"(QRegularExpression\s*\w*\s*\(\s*(R?["'][^"']+["'])\s*\))");
-        QRegularExpression rx2(R"(QRegularExpression\s*\w*\s*\(\s*([a-zA-Z_]\w*)\s*\))");
-        QRegularExpression rx3(R"(\.setPattern\s*\(\s*(R?["'][^"']+["'])\s*\))");
-        QRegularExpression rx4(R"(\.setPattern\s*\(\s*([a-zA-Z_]\w*)\s*\))");
+        QRegularExpression rx1(R"(QRegularExpression\s*\w*\s*\(\s*(R?["'][^"']+["'])\s*[,\)])");
+        QRegularExpression rx2(R"(QRegularExpression\s*\w*\s*\(\s*([a-zA-Z_]\w*)\s*[,\)])");
+        QRegularExpression rx3(R"(\.setPattern\s*\(\s*(R?["'][^"']+["'])\s*[,\)])");
+        QRegularExpression rx4(R"(\.setPattern\s*\(\s*([a-zA-Z_]\w*)\s*[,\)])");
 
         for (int i = 0; i < lines.size(); ++i) {
             QString line = lines[i];
@@ -123,21 +123,12 @@ protected:
 
 TEST_F(US_RegexTest, ValidateAllRegexPatterns) {
     QStringList targetDirs = {"utils", "gui", "somo", "us_somo", "programs"};
-    QStringList dirs;
-    QDir root = QDir::current();
-    dirs << root.absolutePath();
-    root.cdUp();
-    dirs << root.absolutePath();
-    root.cdUp();
-    dirs << root.absolutePath();
-
     QList<PatternEntry> allPatterns;
-    for (const QString& rootPath : dirs) {
-        for (const QString& dir : targetDirs) {
-            QDirIterator it(rootPath + "/" + dir, {"*.cpp", "*.h", "*.hpp", "*.cc"}, QDir::Files, QDirIterator::Subdirectories);
-            while (it.hasNext()) {
-                allPatterns.append(extractPatterns(it.next()));
-            }
+    const QString rootPath (US3_SOURCE_DIR);
+    for (const QString& dir : targetDirs) {
+        QDirIterator it(rootPath + "/" + dir, {"*.cpp", "*.h", "*.hpp", "*.cc"}, QDir::Files, QDirIterator::Subdirectories);
+        while (it.hasNext()) {
+            allPatterns.append(extractPatterns(it.next()));
         }
     }
     if (allPatterns.isEmpty()) {
