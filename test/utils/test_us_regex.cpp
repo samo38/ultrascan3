@@ -4,7 +4,6 @@
 #include <QFile>
 #include <QRegularExpression>
 #include <QTextStream>
-#include <QDebug>
 
 class US_RegexTest : public QtTestBase {
 protected:
