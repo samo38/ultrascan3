@@ -1961,7 +1961,7 @@ bool US_SelectWavelengths_manual::wln_entered( void )
   //QRegExp rx9("[(\\d{3}-\\d{3}:\\d+),]+");
   //QRegExp rx_new("[\\d{3},]*[\\d{3}-\\d{3}]*[(:\\d+)]*[,(\\d{3})]*"); //working partially
 
-  QRegularExpression rx_new("(\\d{3}(-\\d{3}(:\\d+)?)?)(,\\s*\\d{3}(-\\d{3}(:\\d+)?)?)*");
+  QRegularExpression rx_new("^(\\d{3}(-\\d{3}(:\\d+)?)?)(,\\s*\\d{3}(-\\d{3}(:\\d+)?)?)*$");
 
    if ( rx_new.match( text ).hasMatch()
        //|| rx1.exactMatch(text)
