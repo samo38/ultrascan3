@@ -1205,10 +1205,19 @@ void US_ReporterGMP::check_models ( int autoflowID )
 
       QList < double > chann_wvls    = ch_wvls[ channel_desc_alt ];
       int chann_wvl_number           = chann_wvls.size();
+
+      //1. check ir wvl was excluded from analysis in MWL settings:
+      QStringList wvl_not_run_for_channel = currAProf.wvl_not_run[i].split(":");
+      qDebug() << "In check_models(), wvl_not_run for channel, "
+		   << channel_desc_alt << " -- "  << wvl_not_run_for_channel;
       
       for ( int jj = 0; jj < chann_wvl_number; ++jj )
 	{
 	  QString wvl            = QString::number( chann_wvls[ jj ] );
+
+	  //2. check ir wvl was excluded from analysis in MWL settings:
+	  if ( wvl_not_run_for_channel.contains( wvl ))
+	    continue;
 	  
 	  QString tripleName = channel_desc_alt.section( ":", 0, 0 )[0] + QString(".") + channel_desc_alt.section( ":", 0, 0 )[1];
 
