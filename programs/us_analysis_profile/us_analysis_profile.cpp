@@ -2523,6 +2523,7 @@ void US_AnaprofPanGen::setReport( void )
 
        //qDebug() << "In setReport: wvl -- " << wvl;
        channel_report_map[ wvl ] = &( internal_reports[ chan_desc ][ wvl] );
+       channel_report_map[ wvl ]->channel_name = chan_desc;
        qDebug() << "Selected Report, wvl, channel_name -- " << wvl << channel_report_map[ wvl ]->channel_name;
      }
          
