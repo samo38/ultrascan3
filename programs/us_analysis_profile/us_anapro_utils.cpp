@@ -1116,6 +1116,9 @@ DbgLv(1) << "APGe: svP:  kle cr,ct,dv,vt,de"
 	     QString curr_w = ch_wavelengths[ w ];
 	     qDebug() << "curr_w -- " << curr_w;
 
+	     qDebug() << "In Save ana gen: internal_reports[ chdesc_alt ][ curr_w ] "
+		      << internal_reports[ chdesc_alt ][ curr_w ].channel_name;
+	     
 	     currProf->ch_reports[ chdesc_alt ][ curr_w ] = internal_reports[ chdesc_alt ][ curr_w ];
 	     qDebug() << "After insertion..";
 	   }
