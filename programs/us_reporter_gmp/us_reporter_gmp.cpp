@@ -8792,6 +8792,7 @@ bool US_ReporterGMP::triple_exist_inMWL( QString curr_triple )
   bool ex = true;
   QString curr_chann  = curr_triple.split(".")[0];  
   QString curr_wvl    = curr_triple.split(".")[1];
+  QString chann_desc_full;
   QStringList wvls_not;
   for( int i=0; i < chndescs_alt.size(); ++i)
     {
@@ -8799,13 +8800,22 @@ bool US_ReporterGMP::triple_exist_inMWL( QString curr_triple )
       if ( chan_from_desc == curr_chann )
 	{
 	  wvls_not = currAProf.wvl_not_run[i].split(":");
+	  chann_desc_full = chndescs_alt[i];
 	  break;
 	}
     }
   if ( wvls_not.contains(curr_wvl) )
     {
       ex = false;
-      qDebug() << "Triple: " << curr_triple << " will not be considered in replicas averaging!"; 
+      qDebug() << "Triple: " << curr_triple << " will not be considered in replicas averaging! [MWL settings]"; 
+    }
+
+  //now, check if ReportGMP has 'Integration Results' checked (even for triple that is included)
+  US_ReportGMP report_for_triple = ch_reports[ chann_desc_full ][ curr_wvl ];
+  if ( !report_for_triple. integration_results_mask )
+    {
+      ex = false;
+      qDebug() << "Triple: " << curr_triple << " will not be considered in replicas averaging! [ReportGMP settings]"; 
     }
   
   return ex;
