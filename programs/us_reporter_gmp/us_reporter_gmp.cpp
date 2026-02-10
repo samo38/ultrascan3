@@ -1206,7 +1206,7 @@ void US_ReporterGMP::check_models ( int autoflowID )
       QList < double > chann_wvls    = ch_wvls[ channel_desc_alt ];
       int chann_wvl_number           = chann_wvls.size();
 
-      //1. check ir wvl was excluded from analysis in MWL settings:
+      //1. check if wvl was excluded from analysis in MWL settings:
       QStringList wvl_not_run_for_channel = currAProf.wvl_not_run[i].split(":");
       qDebug() << "In check_models(), wvl_not_run for channel, "
 		   << channel_desc_alt << " -- "  << wvl_not_run_for_channel;
@@ -8684,6 +8684,10 @@ QString US_ReporterGMP::calc_replicates_averages( void )
 	  QString curr_chann  = all_wvls[ i ].split(".")[0];  
 	  QString curr_wvl    = all_wvls[ i ].split(".")[1];
 
+	  //check if actual triple is considered in MWL settings
+	  if ( !triple_exist_inMWL( curr_triple ) )
+	    continue;
+
 	  unique_wvls               << curr_wvl;
 	  unique_channels           << curr_chann;
 
@@ -8782,6 +8786,31 @@ QString US_ReporterGMP::calc_replicates_averages( void )
   
   return html_str_replicate_av;
 }
+
+bool US_ReporterGMP::triple_exist_inMWL( QString curr_triple )
+{
+  bool ex = true;
+  QString curr_chann  = curr_triple.split(".")[0];  
+  QString curr_wvl    = curr_triple.split(".")[1];
+  QStringList wvls_not;
+  for( int i=0; i < chndescs_alt.size(); ++i)
+    {
+      QString chan_from_desc = chndescs_alt[i].split(":")[0];
+      if ( chan_from_desc == curr_chann )
+	{
+	  wvls_not = currAProf.wvl_not_run[i].split(":");
+	  break;
+	}
+    }
+  if ( wvls_not.contains(curr_wvl) )
+    {
+      ex = false;
+      qDebug() << "Triple: " << curr_triple << " will not be considered in replicas averaging!"; 
+    }
+  
+  return ex;
+}
+
 
 //Get Replicate Group # from channel_desc_alt
 QString US_ReporterGMP::get_replicate_group_number( QString ch_alt_desc )
