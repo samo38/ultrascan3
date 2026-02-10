@@ -654,6 +654,9 @@ DbgLv(1) << "APGe: inP: 1)le_chn,lcr size" << le_channs.count() << le_lcrats.cou
 		      << internal_reports[ chdesc_alt ][ curr_w ].wavelength
 		      << currProf->ch_reports[ chdesc_alt ] [ curr_w ].experiment_duration
 		      << internal_reports[ chdesc_alt ][ curr_w ].experiment_duration;
+	     qDebug() << "[ANAPROF->Gen->initPanel()]; channames -- "
+		      << currProf->ch_reports[ chdesc_alt ] [ curr_w ].channel_name << ", "
+		      << internal_reports[ chdesc_alt ][ curr_w ].channel_name;
 	   }
 	 
 	 //internal_reports[ chdesc_alt ] = currProf->ch_reports[ chdesc_alt ];
@@ -889,6 +892,33 @@ DbgLv(1) << "APGe: svP: IN";
 DbgLv(1) << "APGe: svP:  kle cr,ct,dv,vt,de"
  << le_lcrats.count() << le_lctols.count() << le_ldvols.count()
  << le_lvtols.count() << le_daends.count() << "nchan" << nchan;
+
+
+//DEBUG
+ for ( int ii_c = 0; ii_c < nchan; ii_c++ )
+   {
+     QMap < QString, US_ReportGMP>::iterator ri;
+     QString chdesc_a = currProf->chndescs_alt[ ii_c ];
+     qDebug() << "SaveGen(): channel: " << chdesc_a;
+     for ( ri = internal_reports[ chdesc_a ].begin(); ri != internal_reports[ chdesc_a ].end(); ++ri )
+       {
+	 QString wvl = ri.key();
+	 qDebug() << "wvl: " << wvl;
+	 
+	 US_ReportGMP report_d = internal_reports[ chdesc_a ][ wvl];
+	 qDebug() << "report_d. channel_name -- " << report_d. channel_name;
+
+	 int ri_size = report_d.reportItems.size();
+	 qDebug() << "chdesc_a, wvl, item# -- " << chdesc_a << ", " << wvl << ", " << ri_size;
+	 for (int i_ri=0; i_ri<ri_size; ++i_ri)
+	   {
+	     US_ReportGMP::ReportItem curr_item = report_d.reportItems[ i_ri ];
+	     qDebug() << "type -- " << curr_item.type;
+	     qDebug() << "method -- " << curr_item.method;
+	   }
+       }
+   }
+
 
  
 // if ( currProf->pchans.count() == nchan )       <--- ALEXEY: BUG commented: very important to re-generate GUI (e.g. when Optics chenged by adding/removing Interfrence)
