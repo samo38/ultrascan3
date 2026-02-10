@@ -894,31 +894,30 @@ DbgLv(1) << "APGe: svP:  kle cr,ct,dv,vt,de"
  << le_lvtols.count() << le_daends.count() << "nchan" << nchan;
 
 
-//DEBUG
+//DEBUG[1] ///////////////////////////////////////////
  for ( int ii_c = 0; ii_c < nchan; ii_c++ )
    {
      QMap < QString, US_ReportGMP>::iterator ri;
      QString chdesc_a = currProf->chndescs_alt[ ii_c ];
-     qDebug() << "SaveGen(): channel: " << chdesc_a;
+     qDebug() << "[1]SaveGen(): channel: " << chdesc_a;
      for ( ri = internal_reports[ chdesc_a ].begin(); ri != internal_reports[ chdesc_a ].end(); ++ri )
        {
 	 QString wvl = ri.key();
 	 qDebug() << "wvl: " << wvl;
 	 
 	 US_ReportGMP report_d = internal_reports[ chdesc_a ][ wvl];
-	 qDebug() << "report_d. channel_name -- " << report_d. channel_name;
+	 qDebug() << "[1]report_d. channel_name -- " << report_d. channel_name;
 
 	 int ri_size = report_d.reportItems.size();
-	 qDebug() << "chdesc_a, wvl, item# -- " << chdesc_a << ", " << wvl << ", " << ri_size;
+	 qDebug() << "[1]chdesc_a, wvl, item# -- " << chdesc_a << ", " << wvl << ", " << ri_size;
 	 for (int i_ri=0; i_ri<ri_size; ++i_ri)
 	   {
 	     US_ReportGMP::ReportItem curr_item = report_d.reportItems[ i_ri ];
-	     qDebug() << "type -- " << curr_item.type;
-	     qDebug() << "method -- " << curr_item.method;
+	     qDebug() << "type, method -- " << curr_item.type << ", " << curr_item.method;
 	   }
        }
    }
-
+ ////////////////////////////////////////////////////
 
  
 // if ( currProf->pchans.count() == nchan )       <--- ALEXEY: BUG commented: very important to re-generate GUI (e.g. when Optics chenged by adding/removing Interfrence)
@@ -1069,7 +1068,30 @@ DbgLv(1) << "APGe: svP:  kle cr,ct,dv,vt,de"
 	}
       // END of copying reference RpeortGMP per replicate group   //////////////////////////////////////////////////////////
 
-      
+ //DEBUG[2] /////////////////////
+ for ( int ii_c = 0; ii_c < nchan; ii_c++ )
+   {
+     QMap < QString, US_ReportGMP>::iterator ri;
+     QString chdesc_a = currProf->chndescs_alt[ ii_c ];
+     qDebug() << "[2]SaveGen(): channel: " << chdesc_a;
+     for ( ri = internal_reports[ chdesc_a ].begin(); ri != internal_reports[ chdesc_a ].end(); ++ri )
+       {
+	 QString wvl = ri.key();
+	 qDebug() << "wvl: " << wvl;
+	 
+	 US_ReportGMP report_d = internal_reports[ chdesc_a ][ wvl];
+	 qDebug() << "[2]report_d. channel_name -- " << report_d. channel_name;
+
+	 int ri_size = report_d.reportItems.size();
+	 qDebug() << "[2]chdesc_a, wvl, item# -- " << chdesc_a << ", " << wvl << ", " << ri_size;
+	 for (int i_ri=0; i_ri<ri_size; ++i_ri)
+	   {
+	     US_ReportGMP::ReportItem curr_item = report_d.reportItems[ i_ri ];
+	     qDebug() << "[2]type, method -- " << curr_item.type << ", " << curr_item.method;
+	   }
+       }
+   }
+ ////////////////////////////////////  
       
       for ( int ii = 0; ii < nchan; ii++ )
       {
