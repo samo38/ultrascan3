@@ -3555,8 +3555,9 @@ DbgLv(1) << "EGRn:inP:  #Wvl for cell: " << j << " is: " << Total_wvl[i];
    }
    // End of ScanCount listbox
 
-   //If for US_ProtocolDev mode, set all widgets in read-only mode:
-   if ( mainw->us_prot_dev_mode )
+   //If for US_ProtocolDev mode OR dataDisk in GMP, set all widgets in read-only mode:
+   if ( mainw->us_prot_dev_mode ||
+	(rpRotor->importData && !rpRotor->importDataDisk.isEmpty()) )
      {
        for ( int ii = 0; ii < nrnchan; ii++ )
 	 {

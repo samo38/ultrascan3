@@ -705,6 +705,7 @@ class US_ExperGuiRanges : public US_WidgetsDialog
    private:
       US_ExperimentMain*   mainw;
       US_RunProtocol::RunProtoRanges*  rpRange;
+      US_RunProtocol::RunProtoRotor*   rpRotor;  //!< Rotor controls
       US_RunProtocol::RunProtoSpeed*   rpSpeed;  //!< Speed controls
       US_RunProtocol::RunProtoSolutions*  rpSolut;  //!< Solutions controls
   

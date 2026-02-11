@@ -19,6 +19,7 @@ US_ExperGuiRanges::US_ExperGuiRanges( QWidget* topw )
    mainw               = (US_ExperimentMain*)topw;
    rpRange             = &(mainw->currProto.rpRange);
    rpSolut             = &(mainw->currProto.rpSolut);
+   rpRotor             = &(mainw->currProto.rpRotor);
    
    mxrow               = 24;     // Maximum possible rows
    nrnchan             = 0;
