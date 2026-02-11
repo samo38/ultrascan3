@@ -1186,6 +1186,7 @@ class US_ExperimentMain : public US_Widgets
       void optima_submitted( QMap < QString, QString > &protocol_details );
       void submitted_protDev( QMap < QString, QString > & );
       void submitted_dataDisk( QMap < QString, QString > & );
+      void set_tabs_buttons_readonly_dataDisk( bool );
 
       void us_exp_clear( QString &protocolName );
       //void auto_mode_passed( void ); 
