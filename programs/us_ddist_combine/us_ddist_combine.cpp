@@ -998,7 +998,7 @@ DbgLv(1) << "pDa:  titleY" << titleY;
    else if ( xtype == 6 )
    {
       titleP = tr( "Discrete Hydrodynamic Radius Distributions" );
-      titleX = tr( "Hydrodynamic Radius" );
+      titleX = tr( "Hydrodynamic Radius (nm)" );
    }
 DbgLv(1) << "pDa:  titleP" << titleP;
 DbgLv(1) << "pDa:  titleX" << titleX;
@@ -1087,7 +1087,7 @@ DbgLv(1) << "pDa:  titleY" << titleY;
    else if ( rb_pltRh->isChecked() )
    {
       titleP = tr( "Discrete Hydrodynamic Radius Distributions" );
-      titleX = tr( "Hydrodynamic Radius" );
+      titleX = tr( "Hydrodynamic Radius (nm)" );
    }
 DbgLv(1) << "pDa:  titleP" << titleP;
 DbgLv(1) << "pDa:  titleX" << titleX;
@@ -2000,7 +2000,7 @@ DbgLv(1) << "FID:  (3)ncomps" << ncomps;
       else if ( xtype == 3 )  xval = ddesc.model.components[ jj ].f_f0;
       else if ( xtype == 4 )  xval = ddesc.model.components[ jj ].vbar20;
       else if ( xtype == 5 )  xval = log( ddesc.model.components[ jj ].mw );
-      else if ( xtype == 6 )  xval = ddesc.model.components[ jj ].f / ( 6 * M_PI * VISC_20W );
+      else if ( xtype == 6 )  xval = ddesc.model.components[ jj ].f / ( 6e-9 * M_PI * VISC_20W );
 
       mxvals << xval;
    }

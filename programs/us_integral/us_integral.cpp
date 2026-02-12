@@ -770,7 +770,7 @@ DbgLv(1) << "LD:  edata: desc run cell chan"
       sol_in.v  = model.components[ jj ].vbar20;
       sol_in.d  = model.components[ jj ].D * 1.0e7;
       sol_in.f  = model.components[ jj ].f;
-      sol_in.r  = 1.0e9 * sol_in.f / ( 6 * M_PI * VISC_20W ); // nm
+      sol_in.r  = model.components[ jj ].f / ( 6e-9 * M_PI * VISC_20W );
 
       tsys.in_distro << sol_in;
       wk_distro << sol_in;

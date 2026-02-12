@@ -1402,7 +1402,7 @@ DbgLv(1) << "MC" << monte_carlo << " iters" << mc_iters;
          sol_sk.v  = model.components[ jj ].vbar20;
          sol_sk.d  = model.components[ jj ].D;
          sol_sk.f  = model.components[ jj ].f;
-         sol_sk.r  = model.components[ jj ].f / ( 6 * M_PI * VISC_20W );
+         sol_sk.r  = model.components[ jj ].f / ( 6e-9 * M_PI * VISC_20W );
 
          sol_xy    = sol_sk;
          sol_xy.s  = ( attr_x == ATTR_S ) ? sol_sk.s : sol_xy.s;
@@ -2400,7 +2400,7 @@ QString US_GA_Initialize::anno_title( int pltndx )
    else if ( pltndx == ATTR_F )
       a_title  = tr( "Frictional Coefficient" );
    else if ( pltndx == ATTR_R )
-      a_title  = tr( "Hydrodynamic Radius" );
+      a_title  = tr( "Hydrodynamic Radius (nm)" );
 
    return a_title;
 }
