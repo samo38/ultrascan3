@@ -2013,3 +2013,46 @@ void US_MwlSpeciesFit::rmsd_3dplot(){
     US_MWL_SF_PLOT3D* plot3d = new US_MWL_SF_PLOT3D(this, sfdata[ccx]);
     plot3d->exec();
 }
+
+void US_MwlSpeciesFit::reset( void )
+{
+   US_AnalysisBase2::reset();
+   reset_data();
+   reset_gui();
+}
+
+void US_MwlSpeciesFit::reset_data( void )
+{
+   nspecies    = 0;
+   jspec       = 0;
+   synData.clear();
+   have_p1.clear();
+   celchns.clear();
+   ftndxs.clear();
+   ltndxs.clear();
+   celchn_wvl.clear();
+   synFitError.clear();
+   rmsd_for_gmp.clear();
+   extinction_profiles_per_channel.clear();
+}
+
+void US_MwlSpeciesFit::reset_gui( void )
+{
+   if ( te_results != nullptr )
+   {
+      te_results->disconnect();
+      te_results->close();
+      te_results = nullptr;
+   }
+
+   le_fit_error->clear();
+
+   pb_loadsfit->setEnabled( false );
+   pb_sfitdata->setEnabled( false );
+   pb_prev    ->setEnabled( false );
+   pb_next    ->setEnabled( false );
+   pb_plot3d  ->setEnabled( false );
+
+   data_plot1->setTitle( tr( "Output Data Set" ) );
+   data_plot2->setTitle( tr( "Input Data Set" ) );
+}
