@@ -1756,6 +1756,9 @@ void US_ExperGuiRotor::importDiskChecked( bool checked )
       ck_absorbance_pa -> setChecked( false );
       ra_data_type = false;
       ra_data_sim  = false;
+
+      //set tabs to read
+      mainw->set_tabs_buttons_readonly_dataDisk( false );
     }
   else
     {
@@ -2146,6 +2149,9 @@ void US_ExperGuiRotor::importDisk( void )
   
   //set up dir path
   le_dataDiskPath   ->setText( importDataPath );
+
+  //set tabs readonly
+  mainw->set_tabs_buttons_readonly_dataDisk( true );
 }
 
 //
