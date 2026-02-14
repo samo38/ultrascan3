@@ -3488,14 +3488,14 @@ void US_AnaprofPan2DSA::cust_grid_clicked( )
   US_ModelLoader* mloader = new US_ModelLoader( true, mfilter, model, mdesc, "" );
   if ( mloader->exec() != QDialog::Accepted ) return;
   
-  bool cgmdata = ! model.customGridData.grids.isEmpty() &&
-    ! model.customGridData.components.isEmpty() &&
-    model.customGridData.components.size() == model.components.size();
-  if ( ! cgmdata ) {
-    QMessageBox::warning( this, "Warning!", "The following model doesn't have custom "
-			  "grid metadata!<br/><br/><b>" + mdesc + "</b>" );
-    return;
-  }
+  // bool cgmdata = ! model.customGridData.grids.isEmpty() &&
+  //   ! model.customGridData.components.isEmpty() &&
+  //   model.customGridData.components.size() == model.components.size();
+  // if ( ! cgmdata ) {
+  //   QMessageBox::warning( this, "Warning!", "The following model doesn't have custom "
+  // 			  "grid metadata!<br/><br/><b>" + mdesc + "</b>" );
+  //   return;
+  // }
 
   QString m_desc = model.description;
   QString m_guid = model.modelGUID;
