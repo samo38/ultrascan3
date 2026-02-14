@@ -719,6 +719,7 @@ if(US3_BUILD_PROGRAMS AND NOT US3_NO_DB)
 endif()
 
 if(BUILD_TESTING)
+    add_compile_definitions(US3_SOURCE_DIR="${CMAKE_SOURCE_DIR}")
     add_subdirectory(test)
 endif()
 
