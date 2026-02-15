@@ -2522,7 +2522,11 @@ void US_AnaprofPanGen::setReport( void )
        QString wvl = ri.key();
 
        //qDebug() << "In setReport: wvl -- " << wvl;
+       qDebug() << "Selected Report, wvl, channel_name[1internal] -- " << wvl << internal_reports[ chan_desc ][ wvl].channel_name;
        channel_report_map[ wvl ] = &( internal_reports[ chan_desc ][ wvl] );
+       channel_report_map[ wvl ]->channel_name = chan_desc;
+       qDebug() << "Selected Report, wvl, channel_name -- " << wvl << channel_report_map[ wvl ]->channel_name;
+       qDebug() << "Selected Report, wvl, channel_name[2internal] -- " << wvl << internal_reports[ chan_desc ][ wvl].channel_name;
      }
          
    reportGui = new US_ReportGui(  channel_report_map );
