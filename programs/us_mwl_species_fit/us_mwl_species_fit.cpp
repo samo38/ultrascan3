@@ -2030,10 +2030,25 @@ void US_MwlSpeciesFit::reset_data( void )
    celchns.clear();
    ftndxs.clear();
    ltndxs.clear();
+   spfiles.clear();
    celchn_wvl.clear();
    synFitError.clear();
    rmsd_for_gmp.clear();
+   radii.clear();
+   spconcs.clear();
+   lambdas.clear();
+   spwavls.clear();
+   nwavls.clear();
+   editProfile_blc.clear();
    extinction_profiles_per_channel.clear();
+   report_runs.clear();
+   analysis_runs.clear();
+   ch_wvls.clear();
+   chndescs.clear();
+   chndescs_alt.clear();
+   ch_reports.clear();
+   protocol_details.clear();
+   us_gmp_auto_mode = false;
 }
 
 void US_MwlSpeciesFit::reset_gui( void )
