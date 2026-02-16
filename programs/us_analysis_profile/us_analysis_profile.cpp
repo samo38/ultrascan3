@@ -2522,7 +2522,11 @@ void US_AnaprofPanGen::setReport( void )
        QString wvl = ri.key();
 
        //qDebug() << "In setReport: wvl -- " << wvl;
+       qDebug() << "Selected Report, wvl, channel_name[1internal] -- " << wvl << internal_reports[ chan_desc ][ wvl].channel_name;
        channel_report_map[ wvl ] = &( internal_reports[ chan_desc ][ wvl] );
+       channel_report_map[ wvl ]->channel_name = chan_desc;
+       qDebug() << "Selected Report, wvl, channel_name -- " << wvl << channel_report_map[ wvl ]->channel_name;
+       qDebug() << "Selected Report, wvl, channel_name[2internal] -- " << wvl << internal_reports[ chan_desc ][ wvl].channel_name;
      }
          
    reportGui = new US_ReportGui(  channel_report_map );
@@ -3488,14 +3492,14 @@ void US_AnaprofPan2DSA::cust_grid_clicked( )
   US_ModelLoader* mloader = new US_ModelLoader( true, mfilter, model, mdesc, "" );
   if ( mloader->exec() != QDialog::Accepted ) return;
   
-  bool cgmdata = ! model.customGridData.grids.isEmpty() &&
-    ! model.customGridData.components.isEmpty() &&
-    model.customGridData.components.size() == model.components.size();
-  if ( ! cgmdata ) {
-    QMessageBox::warning( this, "Warning!", "The following model doesn't have custom "
-			  "grid metadata!<br/><br/><b>" + mdesc + "</b>" );
-    return;
-  }
+  // bool cgmdata = ! model.customGridData.grids.isEmpty() &&
+  //   ! model.customGridData.components.isEmpty() &&
+  //   model.customGridData.components.size() == model.components.size();
+  // if ( ! cgmdata ) {
+  //   QMessageBox::warning( this, "Warning!", "The following model doesn't have custom "
+  // 			  "grid metadata!<br/><br/><b>" + mdesc + "</b>" );
+  //   return;
+  // }
 
   QString m_desc = model.description;
   QString m_guid = model.modelGUID;

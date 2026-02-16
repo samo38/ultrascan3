@@ -19,6 +19,7 @@ US_ExperGuiRanges::US_ExperGuiRanges( QWidget* topw )
    mainw               = (US_ExperimentMain*)topw;
    rpRange             = &(mainw->currProto.rpRange);
    rpSolut             = &(mainw->currProto.rpSolut);
+   rpRotor             = &(mainw->currProto.rpRotor);
    
    mxrow               = 24;     // Maximum possible rows
    nrnchan             = 0;
@@ -1960,8 +1961,6 @@ bool US_SelectWavelengths_manual::wln_entered( void )
   //QRegExp rx8("[(\\d{3}-\\d{3})]*[(:\\d+)]*[(,)]*");
   //QRegExp rx9("[(\\d{3}-\\d{3}:\\d+),]+");
   //QRegExp rx_new("[\\d{3},]*[\\d{3}-\\d{3}]*[(:\\d+)]*[,(\\d{3})]*"); //working partially
-
-  //QRegularExpression rx_new("[\\d{3},]*[\\d{3}-\\d{3},]*[\\d{3}-\\d{3}:\\d+,]*");
 
   static const QRegularExpression rx_new("^(\\d{3}(-\\d{3}(:\\d+)?)?)(,\\s*\\d{3}(-\\d{3}(:\\d+)?)?)*$");
   //OR -- static const QRegularExpression rx_new("^(\\d{3}|\\d{3}-\\d{3}|\\d{3}-\\d{3}:\\d+)(,(\\d{3}|\\d{3}-\\d{3}|\\d{3}-\\d{3}:\\d+))*$");
