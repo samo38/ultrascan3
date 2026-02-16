@@ -1267,4 +1267,58 @@ DbgLv(1) << "pcsa:  close d's res epl ana" << resplotd << eplotcd << analcd;
    }
 }
 
+void US_pcsa::reset( void )
+{
+   US_AnalysisBase2::reset();
+   reset_data();
+   reset_gui();
+}
+
+void US_pcsa::reset_data( void )
+{
+   baserss    = 0;
+
+   dsets.clear();
+   dset = SS_DATASET();
+   dsets << &dset;
+
+   speed_steps.clear();
+
+   model = US_Model();
+   model_stats.clear();
+
+   mrecs.clear();
+   mrecs_mc.clear();
+
+   ti_noise = US_Noise();
+   ri_noise = US_Noise();
+   ti_noise_in = US_Noise();
+   ri_noise_in = US_Noise();
+
+   edata = nullptr;
+   sdata.scanData.clear();
+   rdata.scanData.clear();
+}
+
+void US_pcsa::reset_gui( void )
+{
+   if ( te_results ) {
+      te_results->close();
+   }
+   if ( resplotd ) {
+      resplotd->close();
+   }
+   if ( eplotcd ) {
+      eplotcd->close();
+   }
+   if ( analcd ) {
+      analcd->close();
+   }
+
+
+   te_status->setText( tr(
+       "Solution not initiated...\n"
+       "RMSD:  0.000000,\n"
+       "Variance: 0.000000e-05 .\n"
+       "Iterations:  0" ) );
 

@@ -210,6 +210,10 @@ class US_pcsa : public US_AnalysisBase2
         //! \brief Shows help information
         void help(void)
         { showHelp.show_help("manual/pcsa.html"); };
+
+        void reset();
+        void reset_data();
+        void reset_gui();
 };
 
 #endif // US_PCSA_H
