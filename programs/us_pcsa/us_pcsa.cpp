@@ -45,7 +45,6 @@ US_pcsa::US_pcsa() : US_AnalysisBase2()
    baserss    = 0;
 
    // Build local and pcsa-specific GUI elements
-   te_results = NULL;
 
    QLabel* lb_analysis = us_banner( tr( "Analysis Controls" ) );
    QLabel* lb_scan     = us_banner( tr( "Scan Control"       ) );
@@ -453,7 +452,7 @@ void US_pcsa::view( void )
    write_report( ts );
 
    // Create US_Editor and display report
-   if ( te_results == NULL )
+   if ( !te_results )
    {
       te_results = new US_Editor( US_Editor::DEFAULT, true, QString(), this );
       te_results->resize( 820, 700 );
@@ -1268,6 +1267,9 @@ DbgLv(1) << "pcsa:  close d's res epl ana" << resplotd << eplotcd << analcd;
       eplotcd->close();
    if ( analcd != 0 )
       analcd->close();
+   if ( te_results ) {
+      te_results->close();
+   }
 }
 
 // Private slot to mark a child widgets as closed, if it has been destroyed
