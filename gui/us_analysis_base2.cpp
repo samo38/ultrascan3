@@ -377,7 +377,7 @@ void US_AnalysisBase2::update( int selection )
    US_SimulationParameters simulationParameters = US_SimulationParameters();
    QVector<US_SimulationParameters::SpeedProfile> speed_profiles;
    speed_profiles.clear();
-   if ( disk_controls->db() )
+   if ( disk_controls->db() && dbP != nullptr )
    {
      QStringList query;
      QString     expID;
