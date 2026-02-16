@@ -975,7 +975,7 @@ void US_AnalysisBase2::new_triple( const int index )
 
    // Make sure we have a reports directory for this runID
    const QString repdir = US_Settings::reportDir() + "/" + dat->runID;
-   const QDir dir;
+   QDir dir;
    if ( ! dir.exists( repdir ) ) {
       dir.mkpath( repdir );
    }
@@ -1773,7 +1773,7 @@ void US_AnalysisBase2::reset_gui( void ) {
    // Solution section
    le_density->setText( QString::number( density, 'f', 6 ) );
    le_viscosity->setText( QString::number( viscosity, 'f', 5 ) );
-   le_vbar->setText( QString::number( vbar, 'f', 2 ) );
+   le_vbar->setText( QString::number( vbar, 'f', 5 ) );
    le_solution->setText( tr( "(Experiment's solution)" ) );
    le_skipped->setText( tr( "0" ) );
    pb_solution ->setEnabled ( false );
