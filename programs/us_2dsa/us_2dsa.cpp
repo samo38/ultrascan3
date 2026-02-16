@@ -1607,28 +1607,24 @@ void US_2dsa::reset() {
 
 void US_2dsa::reset_gui() {
    // close open windows
-   if ( resplotd != nullptr ) {
+   if ( resplotd ) {
       resplotd->disconnect();
       resplotd->close();
-      resplotd = nullptr;
    }
-   if ( eplotcd != nullptr )
+   if ( eplotcd )
    {
       eplotcd->disconnect();
       eplotcd->close();
-      eplotcd = nullptr;
    }
-   if ( analcd != nullptr )
+   if ( analcd )
    {
       analcd->disconnect();
       analcd->close();
-      analcd = nullptr;
    }
-   if ( analcd1 != nullptr )
+   if ( analcd1 )
    {
       analcd1->disconnect();
       analcd1->close();
-      analcd1 = nullptr;
    }
    if ( te_results != nullptr ) {
       te_results->disconnect();
