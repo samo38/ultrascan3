@@ -1664,6 +1664,8 @@ void US_2dsa::reset_gui() {
 void US_2dsa::reset_data() {
    baserss    = 0;
    dsets.clear();
+   dset = SS_DATASET();
+   dsets << &dset;
    speed_steps.clear();
    normvA.clear();
    models.clear();
