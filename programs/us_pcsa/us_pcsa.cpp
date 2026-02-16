@@ -129,10 +129,10 @@ US_pcsa::US_pcsa() : US_AnalysisBase2()
        "Iterations:  0" ) );
    us_setReadOnly( te_status, true );
 
-   connect( pb_help,  SIGNAL( clicked() ), SLOT( help()  ) );
-   connect( pb_view,  SIGNAL( clicked() ), SLOT( view()  ) );
-   connect( pb_save,  SIGNAL( clicked() ), SLOT( save()  ) );
-   connect( pb_close, SIGNAL( clicked() ), SLOT( close() ) );
+   connect( pb_help,  &QPushButton::clicked, this, &US_pcsa::help );
+   connect( pb_view,  &QPushButton::clicked, this, &US_pcsa::view );
+   connect( pb_save,  &QPushButton::clicked, this, &US_pcsa::save );
+   connect( pb_close, &QPushButton::clicked, this, &US_pcsa::close );
 
    pb_view   ->setEnabled( false );
    pb_save   ->setEnabled( false );
