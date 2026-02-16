@@ -147,9 +147,9 @@ US_pcsa::US_pcsa() : US_AnalysisBase2()
    eplotcd .clear();
    analcd  .clear();
 
-   rbd_pos      = this->pos() + QPoint(  100, 100 );
-   epd_pos      = this->pos() + QPoint(  400, 200 );
-   acd_pos      = this->pos() + QPoint(  500,  50 );
+   rbd_pos = this->pos() + QPoint(  100, 100 );
+   epd_pos = this->pos() + QPoint(  400, 200 );
+   acd_pos = this->pos() + QPoint(  500,  50 );
 
    dsets.clear();
    dsets << &dset;
@@ -468,6 +468,7 @@ void US_pcsa::view( void )
 
    te_results->e->setHtml( rtext );
    te_results->show();
+   te_results->raise();
 }
 
 // Save data (model,noise), report, and PNG image files
@@ -797,7 +798,7 @@ DbgLv(1) << "mlines ptmp4File" << ptmp4File;
    write_dset_report( dsinfFile );
 
    // Write plots
-   if ( resplotd == 0 )
+   if ( !resplotd )
    {
       resplotd = new US_ResidPlotPc( this );
       resplotd->move( rbd_pos );
@@ -939,7 +940,7 @@ void US_pcsa::open_fitcntl()
       return;
    }
 
-   US_Math2::SolutionData sd;
+   US_Math2::SolutionData sd{};
    sd.density      = density;
    sd.viscosity    = viscosity;
    sd.vbar20       = vbar20;
@@ -978,13 +979,14 @@ DbgLv(1) << "Bottom" << dset.simparams.bottom << "rotorcoeffs"
       dbP    = NULL;
    }
 
-   if ( analcd != 0 )
+   if ( analcd )
    {
       acd_pos  = analcd->pos();
       analcd->close();
    }
-   else
+   else {
       acd_pos  = this->pos() + QPoint(  500,  50 );
+   }
 
    analcd  = new US_AnalysisControlPc( dsets, this );
    analcd->move( acd_pos );
@@ -1256,12 +1258,15 @@ DbgLv(1) << "pcsa: removed: " << ptmp4File;
    }
 DbgLv(1) << "pcsa:  close d's res epl ana" << resplotd << eplotcd << analcd;
 
-   if ( resplotd != 0 )
+   if ( resplotd ) {
       resplotd->close();
-   if ( eplotcd != 0 )
+   }
+   if ( eplotcd ) {
       eplotcd->close();
-   if ( analcd != 0 )
+   }
+   if ( analcd ) {
       analcd->close();
+   }
    if ( te_results ) {
       te_results->close();
    }
@@ -1322,3 +1327,27 @@ void US_pcsa::reset_gui( void )
        "Variance: 0.000000e-05 .\n"
        "Iterations:  0" ) );
 
+   le_vari->setText( "0.00000" );
+   le_rmsd->setText( "0.00000" );
+
+   pb_view   ->setEnabled( false );
+   pb_save   ->setEnabled( false );
+   pb_fitcntl->setEnabled( false );
+   pb_plt3d  ->setEnabled( false );
+   pb_pltres ->setEnabled( false );
+   pb_exclude->setEnabled( false );
+   ct_from   ->setEnabled( false );
+   ct_to     ->setEnabled( false );
+
+   // Reset boundary counters to PCSA defaults (disabled)
+   ct_boundaryPercent->disconnect();
+   ct_boundaryPercent->setRange     ( 0.0, 300.0 );
+   ct_boundaryPercent->setSingleStep( 1.0 );
+   ct_boundaryPercent->setValue     ( 300.0 );
+   ct_boundaryPercent->setEnabled   ( false );
+   ct_boundaryPos    ->disconnect();
+   ct_boundaryPos    ->setRange     ( -50.0, 300.0 );
+   ct_boundaryPos    ->setSingleStep( 1.0 );
+   ct_boundaryPos    ->setValue     ( -50.0 );
+   ct_boundaryPos    ->setEnabled   ( false );
+}
