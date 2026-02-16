@@ -225,10 +225,10 @@ class US_GUI_EXTERN US_AnalysisBase2 : public US_Widgets
 
       double smooth_point( int, int, int, int, int = 0 );
       //! Reset the internal data structures/state
-      virtual void reset_data( void );
+      void reset_data( void );
 
       //! Reset the GUI elements and layout
-      virtual void reset_gui ( void );
+      void reset_gui ( void );
 
 
 
