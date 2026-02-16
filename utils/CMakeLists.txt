@@ -185,9 +185,9 @@ if(BUILD_TESTING OR US3_PREFER_STATIC)
         target_link_libraries(us_utils_static PUBLIC ${WIN32_SYSTEM_LIBS})
         # Use BigObj format for large files
         if(MSVC)
-            target_compile_options(us_utils PRIVATE "/bigobj")
+            target_compile_options(us_utils_static PRIVATE "/bigobj")
         elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-            target_compile_options(us_utils PRIVATE "-Wa,-mbig-obj")
+            target_compile_options(us_utils_static PRIVATE "-Wa,-mbig-obj")
         endif()
     endif()
 
