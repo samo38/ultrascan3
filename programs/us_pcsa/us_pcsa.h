@@ -191,10 +191,6 @@ class US_pcsa : public US_AnalysisBase2
         //! \param filename Name of the bitmap file
         void write_bmap(const QString filename);
 
-        //! \brief Slot to handle child closed event
-        //! \param obj Pointer to the closed child object
-        void child_closed(QObject* obj);
-
         //! \brief Loads data
         void load(void);
 

@@ -142,10 +142,10 @@ US_pcsa::US_pcsa() : US_AnalysisBase2()
    ct_from   ->setEnabled( false );
    ct_to     ->setEnabled( false );
 
-   edata        = 0;
-   resplotd     = 0;
-   eplotcd      = 0;
-   analcd       = 0;
+   edata        = nullptr;
+   resplotd.clear();
+   eplotcd .clear();
+   analcd  .clear();
 
    rbd_pos      = this->pos() + QPoint(  100, 100 );
    epd_pos      = this->pos() + QPoint(  400, 200 );
@@ -802,8 +802,6 @@ DbgLv(1) << "mlines ptmp4File" << ptmp4File;
       resplotd = new US_ResidPlotPc( this );
       resplotd->move( rbd_pos );
       resplotd->setVisible( true );
-      connect( resplotd, SIGNAL( destroyed   ( QObject *) ),
-               this,     SLOT(   child_closed( QObject* ) ) );
    }
 
    write_plot( plot1File, data_plot2 );
@@ -896,8 +894,7 @@ void US_pcsa::open_resplot()
    resplotd = new US_ResidPlotPc( this );
    resplotd->move( rbd_pos );
    resplotd->setVisible( true );
-   connect( resplotd, SIGNAL( destroyed   ( QObject *) ),
-            this,     SLOT(   child_closed( QObject* ) ) );
+   resplotd->raise();
 }
 
 // Open 3-D plot control window
@@ -914,8 +911,7 @@ void US_pcsa::open_3dplot()
    eplotcd = new US_PlotControlPc( this, &model );
    eplotcd->move( epd_pos );
    eplotcd->show();
-   connect( eplotcd,  SIGNAL( destroyed   ( QObject *) ),
-            this,     SLOT(   child_closed( QObject* ) ) );
+   eplotcd->raise();
 }
 
 // Open fit analysis control window
@@ -993,8 +989,7 @@ DbgLv(1) << "Bottom" << dset.simparams.bottom << "rotorcoeffs"
    analcd  = new US_AnalysisControlPc( dsets, this );
    analcd->move( acd_pos );
    analcd->show();
-   connect( analcd,   SIGNAL( destroyed   ( QObject *) ),
-            this,     SLOT(   child_closed( QObject* ) ) );
+   analcd->raise();
    qApp->processEvents();
 }
 
@@ -1272,19 +1267,4 @@ DbgLv(1) << "pcsa:  close d's res epl ana" << resplotd << eplotcd << analcd;
    }
 }
 
-// Private slot to mark a child widgets as closed, if it has been destroyed
-void US_pcsa::child_closed( QObject* o )
-{
-   QString oname = o->objectName();
-DbgLv(1) << "pcsa:CC: d's res epl ana" << resplotd << eplotcd << analcd;
-
-   if ( oname.contains( "AnalysisControl" ) )
-      analcd    = 0;
-   else if ( oname.contains( "ResidPlot" ) )
-      resplotd  = 0;
-   else if ( oname.contains( "PlotControl" ) )
-      eplotcd   = 0;
-DbgLv(1) << "pcsa:CC: return res epl ana" << resplotd << eplotcd << analcd
-   << "oname" << oname;
-}
 
