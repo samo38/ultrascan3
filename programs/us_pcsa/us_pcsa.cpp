@@ -57,7 +57,7 @@ US_pcsa::US_pcsa() : US_AnalysisBase2()
 
    pb_exclude   = us_pushbutton( tr( "Exclude Scan Range" ) );
    pb_exclude->setEnabled( false );
-   connect( pb_exclude, SIGNAL( clicked() ), SLOT( exclude() ) );
+   connect( pb_exclude, &QPushButton::clicked, this, &US_pcsa::exclude );
 
    // Effectively disable boundaries to turn off cyan portion of plot2
    ct_boundaryPercent->disconnect();
@@ -71,17 +71,15 @@ US_pcsa::US_pcsa() : US_AnalysisBase2()
    ct_boundaryPos    ->setValue     ( -50.0 );
    ct_boundaryPos    ->setEnabled   ( false );
 
-   connect( ct_from, SIGNAL( valueChanged( double ) ),
-                     SLOT  ( exclude_from( double ) ) );
-   connect( ct_to,   SIGNAL( valueChanged( double ) ),
-                     SLOT  ( exclude_to  ( double ) ) );
-   pb_fitcntl   = us_pushbutton( tr( "Fit Control"   ) );
-   pb_plt3d     = us_pushbutton( tr( "3-D Plot"      ) );
-   pb_pltres    = us_pushbutton( tr( "Residual Plot" ) );
+   connect( ct_from, &QwtCounter::valueChanged, this, &US_pcsa::exclude_from );
+   connect( ct_to,   &QwtCounter::valueChanged, this, &US_pcsa::exclude_to );
+   pb_fitcntl = us_pushbutton( tr( "Fit Control"   ) );
+   pb_plt3d   = us_pushbutton( tr( "3-D Plot"      ) );
+   pb_pltres  = us_pushbutton( tr( "Residual Plot" ) );
 
-   connect( pb_fitcntl, SIGNAL( clicked() ), SLOT( open_fitcntl() ) );
-   connect( pb_plt3d,   SIGNAL( clicked() ), SLOT( open_3dplot()  ) );
-   connect( pb_pltres,  SIGNAL( clicked() ), SLOT( open_resplot() ) );
+   connect( pb_fitcntl, &QPushButton::clicked, this, &US_pcsa::open_fitcntl );
+   connect( pb_plt3d,   &QPushButton::clicked, this, &US_pcsa::open_3dplot );
+   connect( pb_pltres,  &QPushButton::clicked, this, &US_pcsa::open_resplot );
 
    // To modify controls layout, first make Base elements invisible
    
