@@ -96,12 +96,7 @@ class US_GA_Initialize : public US_Widgets
       QPushButton*  pb_save;
       QPushButton*  pb_reset;
       QPushButton*  pb_view;
-
-      QCheckBox*    ck_autlim;
-      QCheckBox*    ck_1dplot;
-      QCheckBox*    ck_2dplot;
-      QCheckBox*    ck_3dplot;
-
+      
       QRadioButton* rb_x_s;
       QRadioButton* rb_x_ff0;
       QRadioButton* rb_x_mw;
@@ -116,10 +111,16 @@ class US_GA_Initialize : public US_Widgets
       QRadioButton* rb_y_D;
       QRadioButton* rb_y_f;
       QRadioButton* rb_y_rh;
-
+      QRadioButton* rb_1dplot;
+      QRadioButton* rb_2dplot;
+      QRadioButton* rb_3dplot;
+      
       QButtonGroup* bg_x_axis;
       QButtonGroup* bg_y_axis;
+      QButtonGroup* bg_plot;
 
+      QCheckBox*    ck_autlim;
+      
       QPen*         pickpen;
       QPen          cbukpen;
       QPen          pbukpen;
@@ -208,9 +209,7 @@ class US_GA_Initialize : public US_Widgets
       void plot_2dim(   void );
       void plot_3dim(   void );
       void select_autolim( void );
-      void select_plot1d(  void );
-      void select_plot2d(  void );
-      void select_plot3d(  void );
+      void select_plot_dim( int );
       void select_prefilt( void );
       void load_distro (   void );
       void load_color(     void );

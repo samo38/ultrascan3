@@ -247,26 +247,23 @@ US_GA_Initialize::US_GA_Initialize() : US_Widgets()
    connect( pb_lddistr, SIGNAL( clicked() ),
             this,       SLOT(   load_distro() ) );
 
-   us_checkbox( tr( "1-Dimensional Plot" ), ck_1dplot, false );
-   connect( ck_1dplot,  SIGNAL( clicked() ),
-            this,       SLOT(   select_plot1d() ) );
-
    pb_ldcolor    = us_pushbutton( tr( "Load Color File" ) );
    connect( pb_ldcolor, SIGNAL( clicked() ),
             this,       SLOT(   load_color() ) );
 
-   us_checkbox( tr( "2-Dimensional Plot" ), ck_2dplot, false );
-   connect( ck_2dplot, SIGNAL( clicked() ),
-            this,       SLOT(  select_plot2d() ) );
-
    pb_refresh    = us_pushbutton( tr( "Refresh Plot" ), false );
-   connect( pb_refresh, SIGNAL( clicked() ),
-            this,       SLOT(   replot_data() ) );
 
-   us_checkbox( tr( "Pseudo 3-D Plot" ),    ck_3dplot, true  );
-   connect( ck_3dplot, SIGNAL( clicked() ),
-            this,       SLOT(  select_plot3d() ) );
+   plot_dim   = 3;          // default plot dimension
+   us_radiobutton( tr( "1-Dimensional Plot" ), rb_1dplot, false );
+   us_radiobutton( tr( "2-Dimensional Plot" ), rb_2dplot, false );
+   us_radiobutton( tr( "Pseudo 3-D Plot" ),    rb_3dplot, true  );
 
+   bg_plot = new QButtonGroup( this );
+   bg_plot->addButton( rb_1dplot, 1 );
+   bg_plot->addButton( rb_2dplot, 2 );
+   bg_plot->addButton( rb_3dplot, 3 );
+   connect( bg_plot, &QButtonGroup::idClicked, this, &US_GA_Initialize::select_plot_dim );
+   
    pb_mandrsb    = us_pushbutton( tr( "Manually Draw Bins" ),
                                   false );
    connect( pb_mandrsb, SIGNAL( clicked() ),
@@ -370,11 +367,11 @@ US_GA_Initialize::US_GA_Initialize() : US_Widgets()
    spec->addWidget( pb_prefilt,   s_row,   0, 1, 4 );
    spec->addWidget( le_prefilt,   s_row++, 4, 1, 4 );
    spec->addWidget( pb_lddistr,   s_row,   0, 1, 4 );
-   spec->addWidget( ck_1dplot,    s_row++, 4, 1, 4 );
+   spec->addWidget( rb_1dplot,    s_row++, 4, 1, 4 );
    spec->addWidget( pb_ldcolor,   s_row,   0, 1, 4 );
-   spec->addWidget( ck_2dplot,    s_row++, 4, 1, 4 );
+   spec->addWidget( rb_2dplot,    s_row++, 4, 1, 4 );
    spec->addWidget( pb_refresh,   s_row,   0, 1, 4 );
-   spec->addWidget( ck_3dplot,    s_row++, 4, 1, 4 );
+   spec->addWidget( rb_3dplot,    s_row++, 4, 1, 4 );
    spec->addWidget( pb_mandrsb,   s_row,   0, 1, 4 );
    spec->addWidget( pb_ckovrlp,   s_row++, 4, 1, 4 );
    spec->addWidget( pb_autassb,   s_row,   0, 1, 4 );
@@ -436,7 +433,6 @@ US_GA_Initialize::US_GA_Initialize() : US_Widgets()
    // set up variables and initial state of GUI
    soludata   = new US_SoluteData();
    sdistro    = &xy_distro;
-   plot_dim   = 3;          // default plot dimension
    attr_x     = 0;          // default X type: s
    attr_y     = 1;          // default Y type: f/f0
    attr_z     = 3;          // default Z (fixed) type:  vbar
@@ -448,7 +444,7 @@ US_GA_Initialize::US_GA_Initialize() : US_Widgets()
    binfpath   = US_Settings::resultDir();
    pick       = NULL;
    pickpen    = NULL;
-
+   
    reset();
 }
 
@@ -466,10 +462,7 @@ void US_GA_Initialize::reset( void )
 
    minmax     = false;
    zoom       = false;
-   ck_1dplot->setChecked(  plot_dim == 1 );  
-   ck_2dplot->setChecked(  plot_dim == 2 );
-   ck_3dplot->setChecked(  plot_dim == 3 );
-
+   select_plot_dim( plot_dim );
    nisols     = 0;
    nibuks     = 0;
    wxbuck     = 0.0;
@@ -1217,81 +1210,101 @@ void US_GA_Initialize::select_autolim()
             this,      SLOT(   update_wxbuck( double ) ) );
 }
 
+void US_GA_Initialize::select_plot_dim( int id )
+{
+   plot_dim = id;
+   replot_data();
+   if ( id == 1 )
+   {
+      pb_mandrsb->setEnabled( false );
+      pb_autassb->setEnabled( false );
+      manbuks      = true;
+   } else if ( id == 2 )
+   {
+      pb_mandrsb->setEnabled( true );
+      pb_autassb->setEnabled( !monte_carlo );
+   } else 
+   {
+      pb_mandrsb->setEnabled( true );
+      pb_autassb->setEnabled( !monte_carlo );
+   }
+}
+
 // select 1-dimensional plot
-void US_GA_Initialize::select_plot1d()
-{
-   plot_dim   = 1;
-   ck_2dplot->disconnect();
-   ck_3dplot->disconnect();
-   ck_2dplot->setChecked(  false );
-   ck_3dplot->setChecked(  false );
+// void US_GA_Initialize::select_plot1d()
+// {
+//    plot_dim   = 1;
+   // ck_2dplot->disconnect();
+   // ck_3dplot->disconnect();
+   // ck_2dplot->setChecked(  false );
+   // ck_3dplot->setChecked(  false );
 
-   ck_1dplot->setEnabled(  false );
-   ck_2dplot->setEnabled(  true );
-   ck_3dplot->setEnabled(  true );
+   // ck_1dplot->setEnabled(  false );
+   // ck_2dplot->setEnabled(  true );
+   // ck_3dplot->setEnabled(  true );
 
-   connect( ck_2dplot,  SIGNAL( clicked() ),
-            this,       SLOT( select_plot2d() ) );
-   connect( ck_3dplot,  SIGNAL( clicked() ),
-            this,       SLOT( select_plot3d() ) );
+   // connect( ck_2dplot,  SIGNAL( clicked() ),
+   //          this,       SLOT( select_plot2d() ) );
+   // connect( ck_3dplot,  SIGNAL( clicked() ),
+   //          this,       SLOT( select_plot3d() ) );
 
-   replot_data();
+//    replot_data();
 
-   pb_mandrsb->setEnabled( false );
-   pb_autassb->setEnabled( false );
-   manbuks      = true;
-}
+//    pb_mandrsb->setEnabled( false );
+//    pb_autassb->setEnabled( false );
+//    manbuks      = true;
+// }
 
-// select 2-dimensional plot
-void US_GA_Initialize::select_plot2d()
-{
-   plot_dim   = 2;
-   ck_1dplot->disconnect();
-   ck_3dplot->disconnect();
-   ck_1dplot->setChecked( false );
-   ck_3dplot->setChecked( false );
+// // select 2-dimensional plot
+// void US_GA_Initialize::select_plot2d()
+// {
+//    plot_dim   = 2;
+   // ck_1dplot->disconnect();
+   // ck_3dplot->disconnect();
+   // ck_1dplot->setChecked( false );
+   // ck_3dplot->setChecked( false );
 
-   ck_1dplot->setEnabled( true );
-   ck_2dplot->setEnabled( false );
-   ck_3dplot->setEnabled( true );
+   // ck_1dplot->setEnabled( true );
+   // ck_2dplot->setEnabled( false );
+   // ck_3dplot->setEnabled( true );
 
-   connect( ck_1dplot,  SIGNAL( clicked() ),
-            this,       SLOT( select_plot1d() ) );
-   connect( ck_3dplot,  SIGNAL( clicked() ),
-            this,       SLOT( select_plot3d() ) );
+   // connect( ck_1dplot,  SIGNAL( clicked() ),
+   //          this,       SLOT( select_plot1d() ) );
+   // connect( ck_3dplot,  SIGNAL( clicked() ),
+   //          this,       SLOT( select_plot3d() ) );
 
-   replot_data();
+//    replot_data();
 
-   pb_mandrsb->setEnabled( true );
-   pb_autassb->setEnabled( !monte_carlo );
-}
+//    pb_mandrsb->setEnabled( true );
+//    pb_autassb->setEnabled( !monte_carlo );
+// }
 
-// select 3-dimensional plot
-void US_GA_Initialize::select_plot3d()
-{
-   plot_dim   = 3;
-   ck_1dplot->disconnect();
-   ck_2dplot->disconnect();
-   ck_3dplot->disconnect();
-   ck_1dplot->setChecked( false );
-   ck_2dplot->setChecked( false );
+// // select 3-dimensional plot
+// void US_GA_Initialize::select_plot3d()
+// {
+//    plot_dim   = 3;
+   // ck_1dplot->disconnect();
+   // ck_2dplot->disconnect();
+   // ck_3dplot->disconnect();
+   // ck_1dplot->setChecked( false );
+   // ck_2dplot->setChecked( false );
 
-   ck_1dplot->setEnabled( true );
-   ck_2dplot->setEnabled( true );
-   ck_3dplot->setEnabled( false );
+   // ck_1dplot->setEnabled( true );
+   // ck_2dplot->setEnabled( true );
+   // ck_3dplot->setEnabled( false );
 
-   connect( ck_1dplot,  SIGNAL( clicked() ),
-            this,       SLOT( select_plot1d() ) );
-   connect( ck_2dplot,  SIGNAL( clicked() ),
-            this,       SLOT( select_plot2d() ) );
-   connect( ck_3dplot,  SIGNAL( clicked() ),
-            this,       SLOT( select_plot3d() ) );
+   // connect( ck_1dplot,  SIGNAL( clicked() ),
+   //          this,       SLOT( select_plot1d() ) );
+   // connect( ck_2dplot,  SIGNAL( clicked() ),
+   //          this,       SLOT( select_plot2d() ) );
+   // connect( ck_3dplot,  SIGNAL( clicked() ),
+   //          this,       SLOT( select_plot3d() ) );
 
-   replot_data();
+//    replot_data();
 
-   pb_mandrsb->setEnabled( true );
-   pb_autassb->setEnabled( !monte_carlo );
-}
+//    pb_mandrsb->setEnabled( true );
+//    pb_autassb->setEnabled( !monte_carlo );
+// }
 
 // load the solute distribution from a file or from DB
 void US_GA_Initialize::load_distro()
