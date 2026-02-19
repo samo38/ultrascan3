@@ -755,6 +755,11 @@ void US_GA_Initialize::checkOverlaps( void )
 // Auto assign solute bins
 void US_GA_Initialize::autoAssignSb( void )
 {
+   if ( rb_x_rh->isChecked() || rb_y_rh->isChecked() )
+   {
+      QMessageBox::information( this, "Information", "Autoassign is disabled when Rh is selected.");
+      return;
+   }
    nisols      = ( nisols == 0 ) ? sdistro->size() : nisols;
    pc1         = NULL;
    lw_sbin_data->clear();
@@ -918,9 +923,7 @@ void US_GA_Initialize::plot_1dim( void )
 
    data_plot->replot();
 
-   pb_reset  ->setEnabled( true );
-   pb_autassb->setEnabled( false );
-   manbuks      = true;
+   check_draw_btn();
 }
 
 // plot data 2-D
@@ -1011,8 +1014,7 @@ void US_GA_Initialize::plot_2dim( void )
 
    data_plot->replot();
 
-   pb_reset->setEnabled( true );
-   pb_autassb->setEnabled( !monte_carlo );
+   check_draw_btn();
 }
 
 // plot data 3-D
@@ -1098,8 +1100,7 @@ DbgLv(1) << "pl3d:    cblack" << cblack << "cwhite" << cwhite;
 
    data_plot->replot();
 
-   pb_reset  ->setEnabled( true );
-   pb_autassb->setEnabled( !monte_carlo );
+   check_draw_btn();
 }
 
 // update pseudo-3d resolution factor
@@ -1214,97 +1215,29 @@ void US_GA_Initialize::select_plot_dim( int id )
 {
    plot_dim = id;
    replot_data();
-   if ( id == 1 )
+}
+
+void US_GA_Initialize::check_draw_btn()
+{
+   pb_reset  ->setEnabled( true );
+   if ( rb_x_rh->isChecked() || rb_y_rh->isChecked() )
+   {
+      pb_mandrsb->setEnabled( false );
+      pb_autassb->setEnabled( false );
+      return;
+   }
+
+   if ( plot_dim == 1 )
    {
       pb_mandrsb->setEnabled( false );
       pb_autassb->setEnabled( false );
       manbuks      = true;
-   } else if ( id == 2 )
-   {
-      pb_mandrsb->setEnabled( true );
-      pb_autassb->setEnabled( !monte_carlo );
    } else 
    {
       pb_mandrsb->setEnabled( true );
       pb_autassb->setEnabled( !monte_carlo );
    }
 }
-
-// select 1-dimensional plot
-// void US_GA_Initialize::select_plot1d()
-// {
-//    plot_dim   = 1;
-   // ck_2dplot->disconnect();
-   // ck_3dplot->disconnect();
-   // ck_2dplot->setChecked(  false );
-   // ck_3dplot->setChecked(  false );
-
-   // ck_1dplot->setEnabled(  false );
-   // ck_2dplot->setEnabled(  true );
-   // ck_3dplot->setEnabled(  true );
-
-   // connect( ck_2dplot,  SIGNAL( clicked() ),
-   //          this,       SLOT( select_plot2d() ) );
-   // connect( ck_3dplot,  SIGNAL( clicked() ),
-   //          this,       SLOT( select_plot3d() ) );
-
-//    replot_data();
-
-//    pb_mandrsb->setEnabled( false );
-//    pb_autassb->setEnabled( false );
-//    manbuks      = true;
-// }
-
-// // select 2-dimensional plot
-// void US_GA_Initialize::select_plot2d()
-// {
-//    plot_dim   = 2;
-   // ck_1dplot->disconnect();
-   // ck_3dplot->disconnect();
-   // ck_1dplot->setChecked( false );
-   // ck_3dplot->setChecked( false );
-
-   // ck_1dplot->setEnabled( true );
-   // ck_2dplot->setEnabled( false );
-   // ck_3dplot->setEnabled( true );
-
-   // connect( ck_1dplot,  SIGNAL( clicked() ),
-   //          this,       SLOT( select_plot1d() ) );
-   // connect( ck_3dplot,  SIGNAL( clicked() ),
-   //          this,       SLOT( select_plot3d() ) );
-
-//    replot_data();
-
-//    pb_mandrsb->setEnabled( true );
-//    pb_autassb->setEnabled( !monte_carlo );
-// }
-
-// // select 3-dimensional plot
-// void US_GA_Initialize::select_plot3d()
-// {
-//    plot_dim   = 3;
-   // ck_1dplot->disconnect();
-   // ck_2dplot->disconnect();
-   // ck_3dplot->disconnect();
-   // ck_1dplot->setChecked( false );
-   // ck_2dplot->setChecked( false );
-
-   // ck_1dplot->setEnabled( true );
-   // ck_2dplot->setEnabled( true );
-   // ck_3dplot->setEnabled( false );
-
-   // connect( ck_1dplot,  SIGNAL( clicked() ),
-   //          this,       SLOT( select_plot1d() ) );
-   // connect( ck_2dplot,  SIGNAL( clicked() ),
-   //          this,       SLOT( select_plot2d() ) );
-   // connect( ck_3dplot,  SIGNAL( clicked() ),
-   //          this,       SLOT( select_plot3d() ) );
-
-//    replot_data();
-
-//    pb_mandrsb->setEnabled( true );
-//    pb_autassb->setEnabled( !monte_carlo );
-// }
 
 // load the solute distribution from a file or from DB
 void US_GA_Initialize::load_distro()
@@ -2438,9 +2371,19 @@ DbgLv(1) << "gain: load_bins()";
 
    // Load the solute bins and plot them
    binfpath       = QString( fname ).section( "/", 0, -2 );
+   int xparam, yparam, zparam;
    soludata->loadGAdata( fname, &attr_x, &attr_y, &attr_z );
 DbgLv(1) << "gain:  ld_b : fname attr_x attr_y attr_z"
  << fname << attr_x << attr_y << attr_z;
+   if ( xparam == attr_x && yparam == attr_y )
+   {
+      attr_x = xparam;
+      attr_y = yparam;
+   }
+   else
+   {
+      
+   }
 
    soludata->sortBuckets();
    resetPlotAndList( hlx );

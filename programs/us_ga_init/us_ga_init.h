@@ -210,6 +210,7 @@ class US_GA_Initialize : public US_Widgets
       void plot_3dim(   void );
       void select_autolim( void );
       void select_plot_dim( int );
+      void check_draw_btn( void );
       void select_prefilt( void );
       void load_distro (   void );
       void load_color(     void );
