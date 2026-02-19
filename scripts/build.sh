@@ -49,7 +49,7 @@ while [[ $# -gt 0 ]]; do
       echo ""
       echo "ENVIRONMENT VARIABLES:"
       echo "  US3_BUILD_JOBS      Override number of parallel build jobs"
-      echo "  US3_VCPKG_ROOT      Override vcpkg location (default: ./vcpkg)"
+      echo "  US3_VCPKG_ROOT      Override vcpkg location (default: $HOME/vcpkg)"
       exit 0
       ;;
     APP|TEST|HPC)
