@@ -247,6 +247,7 @@ class US_GA_Initialize : public US_Widgets
       void build_xy_distro ( void );
       void load_bins       ( void );
       QString anno_title   ( int  );
+      QString anno_label   ( int  );
       QwtLinearColorMap* ColorMapCopy( QwtLinearColorMap* );
 
       void help     ( void )

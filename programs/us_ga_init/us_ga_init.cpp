@@ -2351,6 +2351,38 @@ QString US_GA_Initialize::anno_title( int pltndx )
    return a_title;
 }
 
+// Set annotation label for an attribute
+QString US_GA_Initialize::anno_label( int id )
+{
+   QString title;
+
+   switch ( id )
+   {
+   case ATTR_S:
+      title = "s";
+      break;
+   case ATTR_K:
+      title = "ff0";
+      break;
+   case ATTR_W:
+      title = "mw";
+      break;
+   case ATTR_V:
+      title = "vbar";
+      break;
+   case ATTR_D:
+      title = "D";
+      break;
+   case ATTR_F:
+      title = "f";
+      break;
+   case ATTR_R:
+      title = "Rh";
+      break;
+   }
+   return title;
+}
+
 // Load bins from a saved gadistro file
 void US_GA_Initialize::load_bins( void )
 {
@@ -2372,17 +2404,22 @@ DbgLv(1) << "gain: load_bins()";
    // Load the solute bins and plot them
    binfpath       = QString( fname ).section( "/", 0, -2 );
    int xparam, yparam, zparam;
-   soludata->loadGAdata( fname, &attr_x, &attr_y, &attr_z );
+   soludata->loadGAdata( fname, &xparam, &yparam, &zparam );
 DbgLv(1) << "gain:  ld_b : fname attr_x attr_y attr_z"
  << fname << attr_x << attr_y << attr_z;
    if ( xparam == attr_x && yparam == attr_y )
    {
       attr_x = xparam;
       attr_y = yparam;
+      attr_z = zparam;
    }
    else
    {
-      
+      QString msg = "Plot X and Y parameters don't match with the file:\n";
+      msg += tr("X : Plot=%1, File=%2\n").arg( anno_label( attr_x ), anno_label( xparam ) );
+      msg += tr("Y : Plot=%1, File=%2\n").arg( anno_label( attr_y ), anno_label( yparam ) );
+      QMessageBox::warning( this, "Warning!", msg );
+      return;
    }
 
    soludata->sortBuckets();

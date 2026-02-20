@@ -906,8 +906,10 @@ int US_SoluteData::reportDataMC( QString& fname, int mc_iters )
 
             ts << tr( "Hydrodynamic Radius:        " );
             vsum     = 0.0;
-            for ( int jj = 0; jj < ksol; jj++ )
-               vsum    += ( bcomp.at( jj ).f * bcomp.at( jj ).c / ( 6 * M_PI * VISC_20W ) );
+            for ( int jj = 0; jj < ksol; jj++ ) {
+               double rh = bcomp.at( jj ).f / ( 6e-9 * M_PI * VISC_20W );
+               vsum    += ( rh * bcomp.at( jj ).c );
+            }
             ts << ( vsum / tconc ) << Qt::endl;
 
             ts << tr( "Partial concentration:      " );
@@ -958,7 +960,7 @@ int US_SoluteData::reportDataMC( QString& fname, int mc_iters )
             
             valus.clear();
             for ( int jj = 0; jj < ksol; jj++ )
-               valus.append( bcomp.at( jj ).f / ( 6 * M_PI * VISC_20W ) );
+               valus.append( bcomp.at( jj ).f / ( 6e-9 * M_PI * VISC_20W ) );
             outputStats( ts, valus, concs, false,
                   tr( "Hydrodynamic Radius:       " ) );
 
