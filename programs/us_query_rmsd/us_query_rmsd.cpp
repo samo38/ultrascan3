@@ -133,13 +133,13 @@ US_QueryRmsd::US_QueryRmsd() : US_Widgets()
 
    connect(pb_load_runid, SIGNAL(clicked()), this, SLOT(load_runid()));
    connect(pb_save, SIGNAL(clicked()), this, SLOT(save_data()));
-   connect(pb_help, SIGNAL(clicked()), this, SLOT(show_help()));
+   connect(pb_help, SIGNAL(clicked()), this, SLOT(help()));
    connect(pb_simulate, SIGNAL(clicked()), this, SLOT(simulate()));
    connect(le_threshold, SIGNAL(editingFinished()), this, SLOT(new_threshold()));
    connect(fematch, SIGNAL(astfem_cmp(int)), SLOT(update_progress(int)));
 }
 
-void US_QueryRmsd::show_help() {
+void US_QueryRmsd::help() {
    showHelp.show_help("manual/rmsd_query.html");
 }
 

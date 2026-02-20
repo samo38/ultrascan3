@@ -133,7 +133,7 @@ class US_QueryRmsd : public US_Widgets {
 
     private slots:
         void load_runid(void);
-        void show_help(void);
+        void help(void);
         void fill_table(int);
         void set_analysis(int);
         void set_method(int);
