@@ -29,7 +29,7 @@ class bucket
       int    status; // 0 = full-sized bucket, 
                      // 1 = this bucket is reduced from overlap
                      // 2 = newly added bucket
-      bucket() : x(0), x_min(0), x_max(0), y(0), y_max(0), y_min(0), conc(0), status(0) {};
+      bucket() : x( 0 ), x_min( 0 ), x_max( 0 ), y( 0 ), y_max( 0 ), y_min( 0 ), conc( 0 ), status( 0 ) {};
       ~bucket() {};
       bool operator==(const bucket& objIn) 
       {
@@ -105,7 +105,7 @@ class US_SoluteData : public QObject
     int      removeBucketAt( int );
     int      autoCalcBins( int, qreal, qreal );
     int      saveGAdata  ( QString&, int = 0, int = 1, int = 3, double = 0.0 );
-    bool     loadGAdata  ( QString&, int*, int*, int*, double* = nullptr );
+    bool     loadGAdata( QString&, int*, int*, int*, double* = nullptr );
     int      buildDataMC ( void );
     int      reportDataMC( QString&, int );
     void     outputStats( QTextStream&, QList< qreal >&, QList< qreal >&,

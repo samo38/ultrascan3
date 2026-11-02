@@ -19,12 +19,8 @@ US_SoluteData::US_SoluteData( void ) : QObject()
 {
    bndx      = -1;
    dbg_level = US_Settings::us_debug();
-   valid_attrs << US_GA_Initialize::ATTR_S
-               << US_GA_Initialize::ATTR_K
-               << US_GA_Initialize::ATTR_W
-               << US_GA_Initialize::ATTR_V
-               << US_GA_Initialize::ATTR_D
-               << US_GA_Initialize::ATTR_F;
+   valid_attrs << US_GA_Initialize::ATTR_S << US_GA_Initialize::ATTR_K << US_GA_Initialize::ATTR_W << US_GA_Initialize::ATTR_V
+               << US_GA_Initialize::ATTR_D << US_GA_Initialize::ATTR_F;
    allbucks.clear();
 }
 
@@ -662,9 +658,7 @@ else DbgLv(2) << "BUCKET TOO THIN H,V " << horzr << "," << vertr;
 int US_SoluteData::saveGAdata( QString& fname, int xtype, int ytype,
       int ztype, double fixval )
 {
-   if ( !valid_attrs.contains( xtype ) ||
-        !valid_attrs.contains( ytype ) ||
-        !valid_attrs.contains( ztype ) )
+   if ( !valid_attrs.contains( xtype ) || !valid_attrs.contains( ytype ) || !valid_attrs.contains( ztype ) )
    {
       return 1;
    }
@@ -711,22 +705,21 @@ int US_SoluteData::saveGAdata( QString& fname, int xtype, int ytype,
 }
 
 // Read bucket information from file for use by GA
-bool US_SoluteData::loadGAdata( QString& fname, int* xtype, int* ytype,
-                                    int* ztype, double* fixval )
+bool US_SoluteData::loadGAdata( QString& fname, int* xtype, int* ytype, int* ztype, double* fixval )
 {
    QFile file( fname );
    if ( !file.open( QIODevice::ReadOnly | QIODevice::Text ) )
    {
       return false;
    }
-   QTextStream ts( &file );
+   QTextStream       ts( &file );
    const QStringList header = ts.readLine().section( '#', 0, 0 ).simplified().split( ' ' );
    if ( header.size() != 5 )
    {
       return false;
    }
 
-   bool ok = false;
+   bool      ok    = false;
    const int count = header[0].toInt( &ok );
    if ( !ok || count < 0 )
    {
@@ -780,10 +773,12 @@ bool US_SoluteData::loadGAdata( QString& fname, int* xtype, int* ytype,
       }
 
       bucket buk;
-      buk.x_min = bounds[0]; buk.x_max = bounds[1];
-      buk.y_min = bounds[2]; buk.y_max = bounds[3];
-      buk.x = ( bounds[0] + bounds[1] ) / 2.0;
-      buk.y = ( bounds[2] + bounds[3] ) / 2.0;
+      buk.x_min = bounds[0];
+      buk.x_max = bounds[1];
+      buk.y_min = bounds[2];
+      buk.y_max = bounds[3];
+      buk.x     = ( bounds[0] + bounds[1] ) / 2.0;
+      buk.y     = ( bounds[2] + bounds[3] ) / 2.0;
       loaded.append( buk );
    }
 
@@ -792,11 +787,23 @@ bool US_SoluteData::loadGAdata( QString& fname, int* xtype, int* ytype,
       return false;
    }
    allbucks = loaded;
-   bndx = -1;
-   if ( xtype ) *xtype = attrs[0];
-   if ( ytype ) *ytype = attrs[1];
-   if ( ztype ) *ztype = attrs[2];
-   if ( fixval ) *fixval = fixed;
+   bndx     = -1;
+   if ( xtype )
+   {
+      *xtype = attrs[0];
+   }
+   if ( ytype )
+   {
+      *ytype = attrs[1];
+   }
+   if ( ztype )
+   {
+      *ztype = attrs[2];
+   }
+   if ( fixval )
+   {
+      *fixval = fixed;
+   }
    return true;
 }
 
